@@ -1,0 +1,8 @@
+[package]
+name = "smtlib"
+version = "0.1.0"
+edition = "2024"
+description = "SMT-LIB 2.6 front end for the QF_UF and QF_BV solvers: the general problem structure, script processing and model printing."
+
+[lib]
+path = "src/lib.rs"
