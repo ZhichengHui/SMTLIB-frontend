@@ -10,7 +10,8 @@ the declarations of the file are replaced by the model's definitions (abstract v
 `(as @x S)` become distinct new constants of sort S) and z3 must find the assertions satisfiable.
 
 OUT.csv gets one row per file: file, status, answer, seconds, model (ok / bad / unchecked / -).
-The summary at the end counts the answers, the wrong answers (contradicting the status) and the
+`crash` is an answer with no output (the solver aborted, for example out of memory); `error` is
+any other output that is not sat/unsat/unknown. The summary at the end counts the answers, the wrong answers (contradicting the status) and the
 bad models.
 """
 import argparse
@@ -118,6 +119,7 @@ def run_one(solver, z3, path, timeout, mem):
         r = subprocess.run([solver], input=script.encode("latin-1"), capture_output=True,
                            timeout=timeout, preexec_fn=limit(mem))
         out = r.stdout.decode("latin-1")
+        # No output at all: the solver crashed (for example, out of memory).
         answer = out.split("\n", 1)[0].strip() or "crash"
     except subprocess.TimeoutExpired:
         out, answer = "", "timeout"
@@ -132,7 +134,7 @@ def run_one(solver, z3, path, timeout, mem):
             model = "ok" if res == "sat" else ("bad" if res == "unsat" else "unchecked")
         except subprocess.TimeoutExpired:
             model = "unchecked"
-    elif answer not in ("unsat", "unknown", "timeout"):
+    elif answer not in ("unsat", "unknown", "timeout", "crash"):
         answer = "error"
     return path, status, answer, "%.2f" % secs, model
 
