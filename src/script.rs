@@ -810,6 +810,13 @@ impl<'a> Session<'a> {
             out.extend_from_slice(b") ");
             self.write_sort(&mut out, *ret);
             out.push(b' ');
+            if args.is_empty() {
+                // A constant: the first entry matches, if there is one.
+                let v = interp.entries.first().map(|e| &e.val).unwrap_or(&interp.default);
+                self.write_value(&mut out, m, v, *ret)?;
+                out.extend_from_slice(b")\n");
+                continue;
+            }
             let mut closing = 0;
             for e in &interp.entries {
                 if e.args.len() != args.len() {

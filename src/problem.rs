@@ -131,7 +131,8 @@ pub struct SmtEntry {
 }
 
 /// The interpretation of a declared function symbol: at given arguments, the value of the first
-/// entry with these arguments, and `default` if there is none. A constant has no entries.
+/// entry with these arguments, and `default` if there is none (for a constant: the first entry, if
+/// there is one).
 pub struct SmtInterp {
     pub entries: Vec<SmtEntry>,
     pub default: SmtValue,
