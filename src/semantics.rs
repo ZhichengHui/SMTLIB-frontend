@@ -157,7 +157,7 @@ fn apply(op: &SmtOp, vs: &[Val]) -> Result<Val, String> {
                 Bvult => b(ult(&x[0], &x[1])),
                 Bvnand => v(not(&zip(&x[0], &x[1], |p, q| p & q))),
                 Bvnor => v(not(&zip(&x[0], &x[1], |p, q| p | q))),
-                Bvxor => v(zip(&x[0], &x[1], |p, q| p ^ q)),
+                Bvxor => v(x[1..].iter().fold(x[0].clone(), |a, y| zip(&a, y, |p, q| p ^ q))),
                 Bvxnor => v(not(&zip(&x[0], &x[1], |p, q| p ^ q))),
                 Bvcomp => v(vec![x[0] == x[1]]),
                 Bvsub => v(add(&x[0], &neg(&x[1]))),

@@ -725,7 +725,7 @@ impl<'a> Session<'a> {
             "bvult" => (SmtOp::Bvult, bin, Sort::Bool),
             "bvnand" => (SmtOp::Bvnand, bin, Sort::Bv(w)),
             "bvnor" => (SmtOp::Bvnor, bin, Sort::Bv(w)),
-            "bvxor" => (SmtOp::Bvxor, bin, Sort::Bv(w)),
+            "bvxor" => (SmtOp::Bvxor, assoc, Sort::Bv(w)),
             "bvxnor" => (SmtOp::Bvxnor, bin, Sort::Bv(w)),
             "bvcomp" => (SmtOp::Bvcomp, bin, Sort::Bv(1)),
             "bvsub" => (SmtOp::Bvsub, bin, Sort::Bv(w)),
